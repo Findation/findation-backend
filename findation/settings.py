@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
 # Application definition
 
 # Django에서 사용하는 앱을 여기에 명시합니다.
@@ -44,6 +45,9 @@ INSTALLED_APPS = [
     'users',
     'corsheaders',
 ]
+
+# Custom User Model을 사용하기 위해 추가합니다
+AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

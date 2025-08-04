@@ -82,3 +82,12 @@ coverage.xml
 *.csr.pem
 *.csr.pem.key
 *.csr.pem.crt
+
+# 마이그레이션 파일
+**/migrations/*.py
+!**/migrations/__init__.py
+**/migrations/*.pyc
+
+# Python 캐시 파일
+**/__pycache__/
+*.py[cod]

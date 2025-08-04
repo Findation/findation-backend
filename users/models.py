@@ -15,3 +15,10 @@ class User(AbstractUser):
     rank = models.IntegerField(default=0)
     total_time = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    first_name = None
+    last_name = None
+    password = None
+
+    def __str__(self):
+        return f"{self.username} - {self.id} ({self.provider})"
