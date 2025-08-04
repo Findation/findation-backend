@@ -8,6 +8,8 @@ from rest_framework.response import Response
 from .models import User
 from .serializers import UserSerializer
 
+from rest_framework_simplejwt.tokens import RefreshToken
+
 APPLE_KEYS_URL = "https://appleid.apple.com/auth/keys"
 
 def verify_apple_token(identity_token: str):
@@ -63,9 +65,13 @@ class SocialLoginView(APIView):
             social_id=user_info["id"],
         )
 
+        refresh = RefreshToken.for_user(user)
+
         user_data = UserSerializer(user).data
 
         return Response({
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
             "user": user_data,
             "is_new_user": created,
         })
