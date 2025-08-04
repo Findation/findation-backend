@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,10 +26,23 @@ SECRET_KEY = 'django-insecure-y7bkij^!$!r5k^b*u+vy57l!xwelf=o4i$0k%nqpm#8hdu_20u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['api.findation.site', '3.37.69.142']
+
 
 
 # Application definition
+REST_FRAMEWORK = {
+    # JWT 인증 활성화 (사용자가 누구인가)
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    # 누가 접근이 가능한가 (request.user)
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+    ),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+}
 
 # Django에서 사용하는 앱을 여기에 명시합니다.
 # Django에서 앱이란 프로젝트의 기능을 담당하는 단위입니다. (즉 데이터베이스 테이블 단위로 묶인 기능들)
@@ -43,7 +57,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'corsheaders',
+    "rest_framework_simplejwt.token_blacklist",
 ]
+
+# Custom User Model을 사용하기 위해 추가합니다
+AUTH_USER_MODEL = "users.User"
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -158,4 +176,11 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
     }
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+    "ROTATE_REFRESH_TOKENS": True,               
+    "BLACKLIST_AFTER_ROTATION": True,            
 }
