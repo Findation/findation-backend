@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-y7bkij^!$!r5k^b*u+vy57l!xwelf=o4i$0k%nqpm#8hdu_20u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['api.findation.site', '3.37.69.142']
 
 
 
