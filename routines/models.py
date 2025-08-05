@@ -8,7 +8,7 @@ class Routine(models.Model):
     title = models.CharField(max_length=255)
     category = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-    is_reeated = models.IntegerField(default=0)
+    is_repeated = models.IntegerField(default=0)
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
