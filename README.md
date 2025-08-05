@@ -48,3 +48,9 @@ FIX: fix push token saving logic
 TEST: add unit test for login API
 PERF: improve query performance for user list
 ```
+
+## 💻 서버 DB에 접근하는 방법
+
+```bash
+psql -U postgres -d findation
+```
