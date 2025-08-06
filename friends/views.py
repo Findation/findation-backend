@@ -7,6 +7,10 @@ from rest_framework import status
 from .models import Friends
 from .serializers import FriendshipSerializer
 from users.models import User
+from users.serializers import UserSimpleSerializer
+from routines.models import Routine
+from routines.serializers import RoutineSerializer
+from django.db import models
 
 class FriendshipView(APIView):
     permission_classes = [IsAuthenticated]
@@ -74,3 +78,54 @@ class FriendshipDetailView(APIView):
 
         friendship.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class FriendListView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    # 실제 친구 목록만 조회 (accepted 상태)
+    def get(self, request):
+        user = request.user
+        # 내가 보낸 요청 중 accepted된 것들
+        sent_accepted = Friends.objects.filter(user=user, status='accepted')
+        # 내가 받은 요청 중 accepted된 것들  
+        received_accepted = Friends.objects.filter(friend=user, status='accepted')
+        
+        friends = []
+        for friendship in sent_accepted:
+            friends.append(friendship.friend)
+        for friendship in received_accepted:
+            friends.append(friendship.user)
+            
+        serializer = UserSimpleSerializer(friends, many=True)
+        return Response(serializer.data)
+
+
+class FriendRoutineView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    # 친구의 루틴 보기 (친구 인증 확인 후)
+    def get(self, request, friend_id):
+        user = request.user
+        
+        # 친구 관계 확인
+        is_friend = Friends.objects.filter(
+            models.Q(user=user, friend_id=friend_id, status='accepted') |
+            models.Q(user_id=friend_id, friend=user, status='accepted')
+        ).exists()
+        
+        if not is_friend:
+            return Response({"error": "친구가 아닙니다."}, status=403)
+        
+        try:
+            friend = User.objects.get(id=friend_id)
+        except User.DoesNotExist:
+            return Response({"error": "해당 유저를 찾을 수 없습니다."}, status=404)
+        
+        routines = Routine.objects.filter(user=friend)
+        serializer = RoutineSerializer(routines, many=True)
+        
+        return Response({
+            "friend": UserSimpleSerializer(friend).data,
+            "routines": serializer.data
+        })
