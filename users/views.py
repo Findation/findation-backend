@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 
 from .models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer, UserSimpleSerializer
 
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -75,3 +75,15 @@ class SocialLoginView(APIView):
             "user": user_data,
             "is_new_user": created,
         })
+
+class UserSearchView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        nickname = request.query_params.get('nickname')
+        if not nickname:
+            return Response({"error": "닉네임을 입력하세요."}, status=400)
+        
+        users = User.objects.filter(nickname__icontains=nickname).exclude(id=request.user.id)
+        serializer = UserSimpleSerializer(users, many=True)
+        return Response(serializer.data)

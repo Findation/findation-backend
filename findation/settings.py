@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'corsheaders',
     "rest_framework_simplejwt.token_blacklist",
     "routines",
+    'friends',
 ]
 
 # Custom User Model을 사용하기 위해 추가합니다
