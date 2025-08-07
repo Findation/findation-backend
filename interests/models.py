@@ -4,6 +4,7 @@ from django.conf import settings
 
 # Create your models here.
 class Interest(models.Model):
+    id = models.UUIDField(default=uuid.uuid4, editable=False)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
