@@ -23,7 +23,7 @@ class RegisterView(APIView):
         if User.objects.filter(email=email).exists():
             return Response({"error": "이미 가입된 이메일입니다."}, status=400)
 
-        user = User.objects.create_user(email=email, password=password, username=nickname)
+        user = User.objects.create_user(email=email, password=password, nickname=nickname)
 
         refresh = RefreshToken.for_user(user)
         return Response({
