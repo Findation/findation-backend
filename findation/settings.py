@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -54,12 +55,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'rest_framework',
     'users',
     'corsheaders',
     "rest_framework_simplejwt.token_blacklist",
     "routines",
     'friends',
+    'recovery',
+    
 ]
 
 # Custom User Model을 사용하기 위해 추가합니다
@@ -160,9 +164,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'findation',
-        'USER': 'postgre',
-        'PASSWORD': '0721',
+        'NAME': os.getenv('DB_NAME', 'findation_db'),
+        'USER': os.getenv('DB_USER', 'findation_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'yourpassword'),
         'HOST': 'localhost',
         'PORT': '5432',
     }

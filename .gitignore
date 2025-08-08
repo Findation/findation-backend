@@ -91,3 +91,6 @@ coverage.xml
 # Python 캐시 파일
 **/__pycache__/
 *.py[cod]
+
+# env
+.env
