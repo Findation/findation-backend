@@ -161,7 +161,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'findation',
-        'USER': 'postgre',
+        'USER': 'postgres',
         'PASSWORD': '0721',
         'HOST': 'localhost',
         'PORT': '5432',
