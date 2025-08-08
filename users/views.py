@@ -14,15 +14,15 @@ class RegisterView(APIView):
     def post(self, request):
         email = request.data.get("email")
         password = request.data.get("password")
-        username = request.data.get("username")
+        nickname = request.data.get("nickname")
 
-        if not email or not password or not username:
+        if not email or not password or not nickname:
             return Response({"error": "필수 필드가 없습니다."}, status=400)
 
         if User.objects.filter(email=email).exists():
             return Response({"error": "이미 가입된 이메일입니다."}, status=400)
 
-        user = User.objects.create_user(email=email, password=password, username=username)
+        user = User.objects.create_user(email=email, password=password, username=nickname)
 
         refresh = RefreshToken.for_user(user)
         return Response({
