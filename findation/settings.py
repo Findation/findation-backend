@@ -12,10 +12,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+DATA_UPLOAD_MAX_MEMORY_SIZE = 30 * 1024 * 1024
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -60,6 +61,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     "routines",
     'friends',
+    'used_time',
 ]
 
 # Custom User Model을 사용하기 위해 추가합니다
@@ -131,7 +133,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+MEDIA_URL = "https://yoy0z-maps-blog-bucket.s3.ap-northeast-2.amazonaws.com/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
