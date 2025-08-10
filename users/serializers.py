@@ -4,11 +4,11 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'provider', 'rank', 'total_time', 'created_at', 'social_id', 'social_email']
+        fields = ['id', 'nickname', 'email', 'password', 'rank', 'total_time', 'created_at']
 
         read_only_fields = ['id', 'created_at']
 
 class UserSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username']
+        fields = ['id', 'nickname']
