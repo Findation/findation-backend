@@ -22,4 +22,5 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('routines/', include('routines.urls')),
     path('friends/', include('friends.urls')),
+    path('used_time/', include('used_time.urls')),
 ]
