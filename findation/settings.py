@@ -26,7 +26,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 30 * 1024 * 1024
 SECRET_KEY = 'django-insecure-y7bkij^!$!r5k^b*u+vy57l!xwelf=o4i$0k%nqpm#8hdu_20u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['api.findation.site', '3.37.69.142']
 
@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     "routines",
     'friends',
     'used_time',
+    'storages',
 ]
 
 # Custom User Model을 사용하기 위해 추가합니다
