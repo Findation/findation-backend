@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from uuid import uuid4
 import uuid
 
 # Create your models here.
@@ -11,6 +12,7 @@ class User(AbstractUser):
     rank = models.IntegerField(default=0)
     total_time = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+    username=f"{nickname}_{uuid4().hex[:6]}"
 
     first_name = None
     last_name = None
