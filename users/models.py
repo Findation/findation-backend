@@ -8,17 +8,15 @@ class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nickname = models.CharField(max_length=255)
     email = models.EmailField(max_length=255, unique=True)
-    password = models.CharField(max_length=255, null=False, blank=False)
     rank = models.IntegerField(default=0)
     total_time = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
-    username=f"{nickname}_{uuid4().hex[:6]}"
 
     first_name = None
     last_name = None
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['nickname']
+    REQUIRED_FIELDS = ['nickname', 'username']
 
     def __str__(self):
         return f"{self.nickname} - {self.id}의 계정입니다"
