@@ -68,3 +68,12 @@ class UserSearchView(APIView):
         users = User.objects.filter(nickname__icontains=nickname).exclude(id=request.user.id)
         serializer = UserSimpleSerializer(users, many=True)
         return Response(serializer.data)
+    
+    def post(self, request):
+        nickname = request.data.get('nickname')
+        if not nickname:
+            return Response({"error": "닉네임을 입력하세요."}, status=400)
+        
+        users = User.objects.filter(nickname__icontains=nickname).exclude(id=request.user.id)
+        serializer = UserSimpleSerializer(users, many=True)
+        return Response(serializer.data)
