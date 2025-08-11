@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
+from uuid import uuid4
 
 from .models import User
 from .serializers import UserSerializer, UserSimpleSerializer
@@ -23,7 +24,7 @@ class RegisterView(APIView):
         if User.objects.filter(email=email).exists():
             return Response({"error": "이미 가입된 이메일입니다."}, status=400)
 
-        user = User.objects.create_user(email=email, password=password, nickname=nickname, username=nickname)
+        user = User.objects.create_user(email=email, password=password, nickname=nickname, username=f"{nickname}_{uuid4().hex[:6]}")
  
         refresh = RefreshToken.for_user(user)
         return Response({
