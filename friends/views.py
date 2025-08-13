@@ -18,9 +18,10 @@ class FriendshipView(APIView):
     # 친구 요청 리스트 조회 (내가 보낸 것 + 받은 것)
     def get(self, request):
         user = request.user
-        sent = Friends.objects.filter(user=user)
-        received = Friends.objects.filter(friend=user)
-        friendships = sent.union(received)
+        # Q 객체를 사용해서 중복 없이 모든 친구 관계 조회
+        friendships = Friends.objects.filter(
+            models.Q(user=user) | models.Q(friend=user)
+        ).distinct()
         serializer = FriendshipSerializer(friendships, many=True)
         return Response(serializer.data)
 
