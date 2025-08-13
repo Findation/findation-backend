@@ -11,4 +11,4 @@ class UserSerializer(serializers.ModelSerializer):
 class UserSimpleSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'nickname']
+        fields = ['id', 'nickname', 'total_time']
