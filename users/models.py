@@ -20,3 +20,12 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.nickname} - {self.id}의 계정입니다"
+    
+    @property
+    def calculated_total_time(self):
+        """used_time의 총합을 계산하여 반환"""
+        from used_time.models import UsedTime
+        total_seconds = UsedTime.objects.filter(user=self).aggregate(
+            total=models.Sum('used_time')
+        )['total'] or 0
+        return total_seconds

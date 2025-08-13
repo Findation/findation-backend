@@ -4,9 +4,14 @@ from .models import Friends
 from users.models import User
 
 class UserSimpleSerializer(serializers.ModelSerializer):
+    total_time = serializers.SerializerMethodField()
+    
     class Meta:
         model = User
-        fields = ['id', 'username']
+        fields = ['id', 'nickname', 'total_time']
+    
+    def get_total_time(self, obj):
+        return obj.calculated_total_time
 
 class FriendshipSerializer(serializers.ModelSerializer):
     user = UserSimpleSerializer(read_only=True)
