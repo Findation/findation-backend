@@ -91,16 +91,19 @@ class FriendListView(APIView):
         # 내가 받은 요청 중 accepted된 것들  
         received_accepted = Friends.objects.filter(friend=user, status='accepted')
         
-        friends = []
+        friends = set()  # set을 사용해서 중복 제거
         for friendship in sent_accepted:
-            friends.append(friendship.friend)
+            friends.add(friendship.friend)
         for friendship in received_accepted:
-            friends.append(friendship.user)
+            friends.add(friendship.user)
         
         # 나 자신도 추가
-        friends.append(user)
+        friends.add(user)
+        
+        # set을 list로 변환
+        friends_list = list(friends)
             
-        serializer = UserSimpleSerializer(friends, many=True)
+        serializer = UserSimpleSerializer(friends_list, many=True)
         return Response(serializer.data)
 
 
