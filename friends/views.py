@@ -96,6 +96,9 @@ class FriendListView(APIView):
             friends.append(friendship.friend)
         for friendship in received_accepted:
             friends.append(friendship.user)
+        
+        # 나 자신도 추가
+        friends.append(user)
             
         serializer = UserSimpleSerializer(friends, many=True)
         return Response(serializer.data)
